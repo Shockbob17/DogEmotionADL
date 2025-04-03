@@ -1,1 +1,37 @@
-/input
+# Ignore everything by default
+*
+
+# But allow directories (so .py files inside can be seen)
+!*/
+
+# Allow Python scripts
+!*.py
+
+# Allow .gitignore itself
+!.gitignore
+
+# Ignore specific folders
+datasets/
+__pycache__/
+venv*/
+*.zip
+*.pth
+*.log
+
+# Ignore image, audio, video files
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.mp4
+*.avi
+*.wav
+*.mp3
+
+# Ignore Jupyter Notebooks
+*.ipynb
+
+# System files
+.DS_Store
+Thumbs.db
