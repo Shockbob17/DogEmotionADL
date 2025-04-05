@@ -5,3 +5,5 @@ tqdm==4.67.1
 numpy==1.26.4
 gdown
 notebook
+ray[tune]==2.44.1
+optuna==4.2.1
