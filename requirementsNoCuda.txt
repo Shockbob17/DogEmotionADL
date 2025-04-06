@@ -1,9 +1,14 @@
-torch==2.1.0 #2.6.0 for MacOS MPS
-torchvision==0.16.0 #0.21.0 for MacOS MPS
+torch==2.6.0 #2.1.0 previously
+torchvision==0.21.0 #0.16.0 previously
 matplotlib==3.10.1
+pillow==11.1.0
 tqdm==4.67.1
-numpy==1.26.4
+numpy==1.24.4 #1.26.4 previously
 gdown
 notebook
 ray[tune]==2.44.1
 optuna==4.2.1
+transformers==4.51.0
+ipywidgets==8.1.5
+scikit-learn==1.6.1
+seaborn==0.13.2
