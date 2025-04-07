@@ -12,3 +12,4 @@ transformers==4.51.0
 ipywidgets==8.1.5
 scikit-learn==1.6.1
 seaborn==0.13.2
+accelerate==1.6.0
