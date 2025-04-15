@@ -1,12 +1,12 @@
 import os
 import zipfile
-import random
-import logging
 import gdown
 import torch
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, Subset, random_split
+from sklearn.model_selection import StratifiedShuffleSplit
 from typing import Tuple
+from collections import Counter
 
 
 def download_dataset(data_dir: str, zip_url: str, zip_filename: str, root_dir: str) -> None:
@@ -37,23 +37,53 @@ def download_dataset(data_dir: str, zip_url: str, zip_filename: str, root_dir: s
     else:
         print(f"Dataset already exists at {data_dir}")
 
-def _sample_subset(dataset, fraction: float, random_seed: int = 42) -> Subset:
+def _stratified_subset(dataset, fraction: float, seed: int = 42) -> Subset:
     """
-    Returns a subset of the dataset with the specified fraction.
-    
+    Create a stratified subset of the dataset by preserving class distribution.
+
     Args:
-        dataset: The full dataset.
-        fraction (float): Fraction to sample.
-        random_seed (int): Seed for reproducibility.
-        
+        dataset: A torchvision dataset (e.g., ImageFolder).
+        fraction (float): Fraction to sample from each class.
+        seed (int): Random seed for reproducibility.
+
     Returns:
-        Subset: A sampled subset.
+        torch.utils.data.Subset: A stratified subset of the dataset.
     """
-    random.seed(random_seed)
-    dataset_len = len(dataset)
-    subset_size = max(1, int(fraction * dataset_len))
-    indices = random.sample(range(dataset_len), subset_size)
+    if hasattr(dataset, "targets"):
+        labels = dataset.targets
+    elif hasattr(dataset, "samples"):
+        labels = [s[1] for s in dataset.samples]
+    else:
+        raise AttributeError("Dataset must have 'targets' or 'samples' attribute.")
+
+    subset_split = StratifiedShuffleSplit(n_splits=1, test_size=1 - fraction, random_state=seed)
+    indices, _ = next(subset_split.split(range(len(labels)), labels))
     return Subset(dataset, indices)
+
+def _show_class_distribution(dataset, dataset_desc:str = "Training") -> None:
+    """
+    Print number of samples per class in a Subset dataset
+
+    Args:
+        dataset: A torch.utils.data.Subset wrapping dataset
+    """
+    try:
+        indices = dataset.indices
+        base_dataset = dataset.dataset
+        targets = [base_dataset.targets[i] for i in indices]
+        classes = base_dataset.classes
+        label_counts = Counter(targets)
+
+        print(f"Class Distribution for {dataset_desc}:")
+        for idx, class_name in enumerate(classes):
+            print(f"  {class_name:<10}: {label_counts.get(idx, 0)}")
+
+    except AttributeError as e:
+        print("Failed to access targets/classes from base dataset.")
+        print(f"Reason: {e}")
+    except Exception as e:
+        print("Unexpected error during class distribution analysis.")
+        print(f"Reason: {e}")
 
 def create_full_data_loaders(dataset_root: str, transform: transforms.Compose, batch_size: int = 32,
                              random_seed: int = 42) -> Tuple[DataLoader, DataLoader, DataLoader]:
@@ -115,14 +145,19 @@ def create_tuning_data_loaders(dataset_root: str, transform: transforms.Compose,
     train_loader, val_loader, test_loader = create_full_data_loaders(dataset_root, transform, batch_size, random_seed)
     
     # create subsets from each split
-    train_dataset = _sample_subset(train_loader.dataset, subset_fraction, random_seed)
-    val_dataset = _sample_subset(val_loader.dataset, subset_fraction, random_seed)
-    test_dataset = _sample_subset(test_loader.dataset, subset_fraction, random_seed)
-    print(f"Created tuning data loaders with subset fraction: {subset_fraction}", )
+    # apply stratified sampling to train and val
+    train_subset = _stratified_subset(train_loader.dataset, subset_fraction, seed=random_seed)
+    val_subset = _stratified_subset(val_loader.dataset, subset_fraction, seed=random_seed)
     
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
+    print(f"Created tuning data loaders with subset fraction: {subset_fraction}", )
+    # full test set is kept
+    test_dataset = test_loader.dataset
+    
+    print(f"Created subset datasets for hyperparameter tuning: train {len(train_subset)}, val {len(val_subset)}, test {len(test_dataset)}")
+    train_loader = DataLoader(train_subset, batch_size=batch_size, shuffle=True)
+    _show_class_distribution(train_loader.dataset, "Subset Training")
+    val_loader = DataLoader(val_subset, batch_size=batch_size, shuffle=False)
+    _show_class_distribution(val_loader.dataset, "Subset Validation")
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
-    print(f"Created subset datasets for hyperparameter tuning: train {len(train_dataset)}, val {len(val_dataset)}, test {len(test_dataset)}")
-
+    
     return train_loader, val_loader, test_loader

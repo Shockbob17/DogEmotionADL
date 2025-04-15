@@ -8,3 +8,5 @@ notebook
 gdown
 ray[tune]==2.44.1
 optuna==4.2.1
+seaborn==0.13.2
+scikit-learn==1.6.1
