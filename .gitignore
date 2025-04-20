@@ -1,5 +1,4 @@
 /input
 /models
 /logs
-/finalNotebooks/utils/__pycache__
-/results
+/utils/__pycache__
