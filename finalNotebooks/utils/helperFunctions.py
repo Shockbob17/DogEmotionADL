@@ -20,3 +20,4 @@ def is_rgb(image_path, threshold=2):  # Lower = stricter, 2 is safe
     except Exception as e:
         print(f"Skipped {image_path} due to error: {e}")
         return False
+    

@@ -23,17 +23,20 @@ def download_dataset(data_dir: str, zip_url: str, zip_filename: str, root_dir: s
         os.makedirs(root_dir)
         print(f"Created directory: {root_dir}")
         
-    if not os.path.exists(data_dir):
-        print(f"Downloading dataset from {zip_url} to {zip_filename}")
-        try:
-            gdown.download(zip_url, zip_filename, quiet=False)
-            print(f"Extracting dataset...")
-            with zipfile.ZipFile(zip_filename, 'r') as zip_ref:
-                zip_ref.extractall(root_dir)
+    if not os.path.exists(os.path.join(root_dir,data_dir)):
+        if not os.path.exists(os.path.join(root_dir, zip_filename)):
+            print(f"Downloading dataset from {zip_url} to {zip_filename}")
+            try:
+                gdown.download(zip_url, zip_filename, quiet=False)
+                print(f"Extracting dataset...")
+            except Exception as e:
+                print(f"Error downloading or extracting dataset:", str(e))
+                raise
+        else:
+            print("Zipfile already downloaded, unzipping")
+        with zipfile.ZipFile(zip_filename, 'r') as zip_ref:
+            zip_ref.extractall(root_dir)
             print(f"Extraction complete. Dataset available at {data_dir}", )
-        except Exception as e:
-            print(f"Error downloading or extracting dataset:", str(e))
-            raise
     else:
         print(f"Dataset already exists at {data_dir}")
 

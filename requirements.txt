@@ -6,3 +6,4 @@ tqdm == 4.67.1
 numpy==1.26.4
 notebook
 gdown
+ultralytics
