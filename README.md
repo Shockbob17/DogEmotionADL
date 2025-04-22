@@ -12,7 +12,7 @@ Run the following code to download all required libraries for the first setup
 
 ```
 git clone https://github.com/Shockbob17/DogEmotionADL.git
-cd dogemotionadl
+cd DogEmotionADL
 pip install -r requirements.txt
 ```
 
@@ -100,7 +100,7 @@ Note: You do not need to run the dataset_creation.ipynb as the dataset has alrea
 
 ## File Structure
 ```
-DOGEMOTIONADL
+DogEmotionADL
 ├─── input                          <- folder for the dataset
 │
 ├─── logs                           <- folder containing the trainer logs of the models       
