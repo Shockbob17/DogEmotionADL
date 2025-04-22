@@ -1,2 +1,4 @@
 /input
-/models
+/models/
+/logs
+/utils/__pycache__

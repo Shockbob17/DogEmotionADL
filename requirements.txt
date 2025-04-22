@@ -1,8 +1,16 @@
---index-url https://download.pytorch.org/whl/cu118
-torch==2.1.0
-torchvision==0.16.0
+tqdm==4.67.1
 matplotlib==3.10.1
-tqdm == 4.67.1
+seaborn==0.13.2
+scikit-learn==1.6.1
 numpy==1.26.4
+ray[tune]==2.44.1
+optuna==4.3.0
+ultralytics==8.3.111
+gdown==5.2.0
+timm==1.0.15
 notebook
 gdown
+--index-url https://download.pytorch.org/whl/cu118
+torch==2.1.0+cu118
+torchvision==0.16.0+cu118
+torchaudio==2.1.0+cu118
