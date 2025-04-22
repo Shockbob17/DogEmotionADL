@@ -2,12 +2,13 @@
 This is the repository for 60.001 Applied Deep Learning Dog Emotion Classification with Multi‑Level Attention
 The report can be found here: https://drive.google.com/file/d/1DQV4sCy37yGuy_9951pU1skLvk8TFsNS/view?usp=sharing 
 
+* Accuracy values and graphs were based on the results from each models.ipynb notebook rather than from the modelDemo
 ## Setup
 ### Python Version
 Our project was done on Python **3.10.16**
 
 
-### Library Dependcies
+### Library Dependencies
 Run the following code to download all required libraries for the first setup
 
 ```
@@ -26,8 +27,8 @@ This dataset can also be downloaded as a zip from https://drive.google.com/file/
 Our team processed the dataset using the following augmentations:
 
 - Remove black and white images
-- Zoom into dog face in each image and ensure all images are 456 * 456 using Yolo V8 
-- Random horizontal flips & random rotation up to max 10 degrees—simulating head tiltz
+- Zoom into dog in each image and ensure all images are 456 * 456 using Yolo V8 
+- Random horizontal flips & random rotation up to max 10 degrees—simulating head tilt
 - Colour Jitter such as modifying the brightness, contrast, saturation, and hue of images—boost contrast invariance
 
 
