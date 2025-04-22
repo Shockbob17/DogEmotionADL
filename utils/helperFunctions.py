@@ -54,7 +54,7 @@ def unnormalize(tensor, mean, std):
         t.mul_(s).add_(m)  # reverse of (x - mean) / std
     return tensor
 
-def download_model(root_dir: str, model_name: str, zip_url: str, ending_str="_best_model.pt"):
+def download_model(root_dir: str, model_name: str, model_url: str, ending_str="_best_model.pt") -> None:
     """
     
     """
@@ -63,17 +63,21 @@ def download_model(root_dir: str, model_name: str, zip_url: str, ending_str="_be
         os.makedirs(root_dir)
         print(F"Creating root directory, {root_dir}")
     
+    # Creating model directory for specific architecture within model dir
     model_dir = os.path.join(root_dir, model_name)
     if not os.path.exists(model_dir):
         os.makedirs(model_dir)
         print(F"Creating {model_name} directory in {root_dir}")
 
-    model_name = os.path.join(root_dir, model_name, f"{model_name}{ending_str}")
-    if not os.path.exists(model_name):
+    # Downloading model if does not exists
+    model_location = os.path.join(root_dir, model_name, f"{model_name}{ending_str}")
+    print(model_location)
+    if not os.path.exists(model_location):
         try:
-            gdown.download(zip_url, f"{model_name}{ending_str}", quiet=False)
-            print(F"Model for {model_name} downloaded")
+            gdown.download(model_url, f"{model_location}", quiet=False)
+            print(F"Model for {model_location} downloaded")
         except:
-            
+            print(F"Error downloading {model_location}{ending_str} from {model_url}")
     else:
+        print(f"{model_location}{ending_str} already downloaded at {model_dir}")
 
