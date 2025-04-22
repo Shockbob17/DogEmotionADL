@@ -1,9 +1,6 @@
 # Dog Emotion Classification with Multi‑Level Attention
 This is the repository for 60.001 Applied Deep Learning Dog Emotion Classification with Multi‑Level Attention
-The report can be found here: 
-
-
-**dfgdfssg ergberrybersbyvrtsvetavsr b rbv**
+The report can be found here: https://drive.google.com/file/d/1DQV4sCy37yGuy_9951pU1skLvk8TFsNS/view?usp=sharing 
 
 ## Setup
 ### Python Version
