@@ -41,8 +41,7 @@ Our projects assume that the directory the notebook will be run in has the follo
 ```
 ROOT
 ├── models
-│   ├── *model*
-│   │   └── EfficientNetB5.ipynb
+│   ├── modelDemo.ipynb <--- The main file of interest
 │   └── .. 
 ├── notebooks
 │   ├── ..
