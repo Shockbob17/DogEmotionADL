@@ -1,6 +1,8 @@
 
 from PIL import Image
 import numpy as np
+import gdown
+import os
 
 def is_rgb(image_path, threshold=2):  # Lower = stricter, 2 is safe
     """
@@ -37,4 +39,41 @@ def is_rgb(image_path, threshold=2):  # Lower = stricter, 2 is safe
     except Exception as e:
         print(f"Skipped {image_path} due to error: {e}")
         return False
+
+def unnormalize(tensor, mean, std):
+    """
+    Reverses the normalization of an image tensor.
+    Args:
+        tensor (Tensor): Normalized image tensor (C, H, W)
+        mean (list or tuple): Mean used in normalization
+        std (list or tuple): Std used in normalization
+    Returns:
+        Tensor: Unnormalized image tensor
+    """
+    for t, m, s in zip(tensor, mean, std):
+        t.mul_(s).add_(m)  # reverse of (x - mean) / std
+    return tensor
+
+def download_model(root_dir: str, model_name: str, zip_url: str, ending_str="_best_model.pt"):
+    """
     
+    """
+    # Creating model directory if doesn't exist
+    if not os.path.exists(root_dir):
+        os.makedirs(root_dir)
+        print(F"Creating root directory, {root_dir}")
+    
+    model_dir = os.path.join(root_dir, model_name)
+    if not os.path.exists(model_dir):
+        os.makedirs(model_dir)
+        print(F"Creating {model_name} directory in {root_dir}")
+
+    model_name = os.path.join(root_dir, model_name, f"{model_name}{ending_str}")
+    if not os.path.exists(model_name):
+        try:
+            gdown.download(zip_url, f"{model_name}{ending_str}", quiet=False)
+            print(F"Model for {model_name} downloaded")
+        except:
+            
+    else:
+

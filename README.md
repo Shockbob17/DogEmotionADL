@@ -3,7 +3,7 @@ This is the repository for 60.001 Applied Deep Learning Dog Emotion Classificati
 The report can be found here: 
 
 
-dfgdfssg ergberrybersbyvrtsvetavsr b rbv
+**dfgdfssg ergberrybersbyvrtsvetavsr b rbv**
 
 ## Setup
 ### Python Version
@@ -30,7 +30,7 @@ Our team processed the dataset using the following augmentations:
 
 - Remove black and white images
 - Zoom into dog face in each image and ensure all images are 456 * 456 using Yolo V8 
-- Random horizontal flips & random rotation up to max 10 degrees—simulating head tilt
+- Random horizontal flips & random rotation up to max 10 degrees—simulating head tiltz
 - Colour Jitter such as modifying the brightness, contrast, saturation, and hue of images—boost contrast invariance
 
 
@@ -124,5 +124,4 @@ DOGEMOTIONADL
 ├─── utils                          <- folder containing util functions 
 │
 └─── results                        <- folder containing results from testing various models
-
 ```
