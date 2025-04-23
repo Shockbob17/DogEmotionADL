@@ -65,9 +65,9 @@ Our team has the following models with the following structures:
 | DINOv2          | None                                 | Global Self-Attention                              |
 | Swin Transformer| None                                 | Hierarchical Local Attention                       |
 | EfficientNetB5  | None                                 | None                                               |
-| EfficientNetB5  | SE + ASF                             | Channel-Wise Attention                             |
-| EfficientNetB5  | SE + ASF + DINOv2 Head               | Channel-Wise Attention + Spatial Weight Attention + Global Self-Attention |
-| EfficientNetB5  | SE + ASF + Swin Transformer Head     | Channel-Wise Attention + Spatial Weight Attention + Hierarchical Local Attention |
+| EfficientNetB5  | SE + CA                              | Channel-Wise Attention                             |
+| EfficientNetB5  | SE + CA + DINOv2 Head                | Channel-Wise Attention + Spatial Weight Attention + Global Self-Attention |
+| EfficientNetB5  | SE + CA + Swin Transformer Head      | Channel-Wise Attention + Spatial Weight Attention + Hierarchical Local Attention |
 
 **Assumed project structure:**
 
